@@ -66,6 +66,11 @@ const typeDefs = gql`
     elementos: [Elemento]
     elemento(nome: String!): Elemento
   }
+
+  type Mutation {
+    adicionarElemento(nome: String!, massaAtomica: Float!, numeroAtomico: Int!): Elemento
+  }
+  
 `;
 
 const resolvers = {
@@ -73,6 +78,19 @@ const resolvers = {
     elementos: () => elementos,
     elemento: (_, { nome }) => elementos.find(elemento => elemento.nome === nome),
   },
+  Mutation: {
+    adicionarElemento: (_, { nome, massaAtomica, numeroAtomico }) => {
+      const novoElemento = {
+        id: elementos.length + 1, // Simples geração de ID, poderia ser melhorada
+        nome,
+        massaAtomica,
+        numeroAtomico,
+      };
+      elementos.push(novoElemento);
+      return novoElemento;
+    },
+  },
+  
 };
 
 const server = new ApolloServer({ typeDefs, resolvers });
