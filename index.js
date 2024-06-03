@@ -64,7 +64,7 @@ const typeDefs = gql`
 
   type Query {
     elementos: [Elemento]
-    elemento(nome: String!): Elemento
+    elemento(id: ID!): Elemento
   }
 
   type Mutation {
@@ -76,7 +76,7 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     elementos: () => elementos,
-    elemento: (_, { nome }) => elementos.find(elemento => elemento.nome === nome),
+    elemento: (_, { id }) => elementos.find(elemento => elemento.id === parseInt(id)),
   },
   Mutation: {
     adicionarElemento: (_, { nome, massaAtomica, numeroAtomico }) => {
